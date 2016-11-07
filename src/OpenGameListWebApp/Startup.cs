@@ -64,8 +64,6 @@ namespace OpenGameListWebApp
                 }
             });
 
-
-
             app.UseMvc();
         }
     }
