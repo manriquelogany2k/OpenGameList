@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { concat } from '../../operator/concat';
+import {Observable} from '../../Observable';
+import {concat, ConcatSignature} from '../../operator/concat';
 
 Observable.prototype.concat = concat;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    concat: typeof concat;
+    concat: ConcatSignature<T>;
   }
 }

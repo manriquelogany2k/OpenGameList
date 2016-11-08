@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { last } from '../../operator/last';
+import {Observable} from '../../Observable';
+import {last, LastSignature} from '../../operator/last';
 
 Observable.prototype.last = <any>last;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    last: typeof last;
+    last: LastSignature<T>;
   }
 }

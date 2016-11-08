@@ -1,6 +1,6 @@
-import { subscribeOn } from '../../operator/subscribeOn';
+import { SubscribeOnSignature } from '../../operator/subscribeOn';
 declare module '../../Observable' {
     interface Observable<T> {
-        subscribeOn: typeof subscribeOn;
+        subscribeOn: SubscribeOnSignature<T>;
     }
 }

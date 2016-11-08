@@ -1,12 +1,12 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { tryCatch } from '../util/tryCatch';
-import { errorObject } from '../util/errorObject';
-import { subscribeToResult } from '../util/subscribeToResult';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
+import {Operator} from '../Operator';
+import {Observable} from '../Observable';
+import {Subscriber} from '../Subscriber';
+import {Subscription} from '../Subscription';
+import {tryCatch} from '../util/tryCatch';
+import {errorObject} from '../util/errorObject';
+import {subscribeToResult} from '../util/subscribeToResult';
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
 
 /**
  * @param project
@@ -16,10 +16,14 @@ import { InnerSubscriber } from '../InnerSubscriber';
  * @method mergeScan
  * @owner Observable
  */
-export function mergeScan<T, R>(this: Observable<T>, project: (acc: R, value: T) => Observable<R>,
+export function mergeScan<T, R>(project: (acc: R, value: T) => Observable<R>,
                                 seed: R,
                                 concurrent: number = Number.POSITIVE_INFINITY): Observable<R> {
   return this.lift(new MergeScanOperator(project, seed, concurrent));
+}
+
+export interface MergeScanSignature<T> {
+  <R>(project: (acc: R, value: T) => Observable<R>, seed: R, concurrent?: number): Observable<R>;
 }
 
 export class MergeScanOperator<T, R> implements Operator<T, R> {

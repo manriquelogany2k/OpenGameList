@@ -1,6 +1,6 @@
-import { single } from '../../operator/single';
+import { SingleSignature } from '../../operator/single';
 declare module '../../Observable' {
     interface Observable<T> {
-        single: typeof single;
+        single: SingleSignature<T>;
     }
 }

@@ -1,11 +1,11 @@
-import { Scheduler } from '../Scheduler';
-import { Action } from '../scheduler/Action';
-import { Subject } from '../Subject';
-import { Operator } from '../Operator';
-import { async } from '../scheduler/async';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { Subscription } from '../Subscription';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
+import {Subject} from '../Subject';
+import {Subscription} from '../Subscription';
+import {Scheduler} from '../Scheduler';
+import {Action} from '../scheduler/Action';
+import {async} from '../scheduler/async';
 
 /**
  * Branch out the source Observable values as a nested Observable periodically
@@ -56,10 +56,14 @@ import { Subscription } from '../Subscription';
  * @method windowTime
  * @owner Observable
  */
-export function windowTime<T>(this: Observable<T>, windowTimeSpan: number,
+export function windowTime<T>(windowTimeSpan: number,
                               windowCreationInterval: number = null,
                               scheduler: Scheduler = async): Observable<Observable<T>> {
   return this.lift(new WindowTimeOperator<T>(windowTimeSpan, windowCreationInterval, scheduler));
+}
+
+export interface WindowTimeSignature<T> {
+  (windowTimeSpan: number, windowCreationInterval?: number, scheduler?: Scheduler): Observable<Observable<T>>;
 }
 
 class WindowTimeOperator<T> implements Operator<T, Observable<T>> {
@@ -114,7 +118,7 @@ class WindowTimeSubscriber<T> extends Subscriber<T> {
     const len = windows.length;
     for (let i = 0; i < len; i++) {
       const window = windows[i];
-      if (!window.closed) {
+      if (!window.isUnsubscribed) {
         window.next(value);
       }
     }
@@ -132,7 +136,7 @@ class WindowTimeSubscriber<T> extends Subscriber<T> {
     const windows = this.windows;
     while (windows.length > 0) {
       const window = windows.shift();
-      if (!window.closed) {
+      if (!window.isUnsubscribed) {
         window.complete();
       }
     }
@@ -143,6 +147,7 @@ class WindowTimeSubscriber<T> extends Subscriber<T> {
     const window = new Subject<T>();
     this.windows.push(window);
     const destination = this.destination;
+    destination.add(window);
     destination.next(window);
     return window;
   }

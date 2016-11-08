@@ -1,6 +1,6 @@
-import { publishReplay } from '../../operator/publishReplay';
+import { PublishReplaySignature } from '../../operator/publishReplay';
 declare module '../../Observable' {
     interface Observable<T> {
-        publishReplay: typeof publishReplay;
+        publishReplay: PublishReplaySignature<T>;
     }
 }

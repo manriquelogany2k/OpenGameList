@@ -1,6 +1,6 @@
-import { distinctUntilKeyChanged } from '../../operator/distinctUntilKeyChanged';
+import { DistinctUntilKeyChangedSignature } from '../../operator/distinctUntilKeyChanged';
 declare module '../../Observable' {
     interface Observable<T> {
-        distinctUntilKeyChanged: typeof distinctUntilKeyChanged;
+        distinctUntilKeyChanged: DistinctUntilKeyChangedSignature<T>;
     }
 }

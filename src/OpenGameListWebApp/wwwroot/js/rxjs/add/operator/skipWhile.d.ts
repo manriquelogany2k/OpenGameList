@@ -1,6 +1,6 @@
-import { skipWhile } from '../../operator/skipWhile';
+import { SkipWhileSignature } from '../../operator/skipWhile';
 declare module '../../Observable' {
     interface Observable<T> {
-        skipWhile: typeof skipWhile;
+        skipWhile: SkipWhileSignature<T>;
     }
 }

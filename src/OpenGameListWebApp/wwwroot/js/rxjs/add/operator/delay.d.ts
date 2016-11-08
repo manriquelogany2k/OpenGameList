@@ -1,6 +1,6 @@
-import { delay } from '../../operator/delay';
+import { DelaySignature } from '../../operator/delay';
 declare module '../../Observable' {
     interface Observable<T> {
-        delay: typeof delay;
+        delay: DelaySignature<T>;
     }
 }

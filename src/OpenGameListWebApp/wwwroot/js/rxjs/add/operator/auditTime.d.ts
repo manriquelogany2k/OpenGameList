@@ -1,6 +1,6 @@
-import { auditTime } from '../../operator/auditTime';
+import { AuditTimeSignature } from '../../operator/auditTime';
 declare module '../../Observable' {
     interface Observable<T> {
-        auditTime: typeof auditTime;
+        auditTime: AuditTimeSignature<T>;
     }
 }

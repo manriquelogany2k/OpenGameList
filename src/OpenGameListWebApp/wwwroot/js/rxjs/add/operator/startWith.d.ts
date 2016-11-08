@@ -1,6 +1,6 @@
-import { startWith } from '../../operator/startWith';
+import { StartWithSignature } from '../../operator/startWith';
 declare module '../../Observable' {
     interface Observable<T> {
-        startWith: typeof startWith;
+        startWith: StartWithSignature<T>;
     }
 }

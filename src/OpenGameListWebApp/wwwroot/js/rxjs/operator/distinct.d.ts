@@ -14,7 +14,10 @@ import { InnerSubscriber } from '../InnerSubscriber';
  * @method distinct
  * @owner Observable
  */
-export declare function distinct<T>(this: Observable<T>, compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T>;
+export declare function distinct<T>(compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T>;
+export interface DistinctSignature<T> {
+    (compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T>;
+}
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore

@@ -1,6 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
 
 /**
  * If the source Observable is empty it returns an Observable that emits true, otherwise it emits false.
@@ -11,8 +11,12 @@ import { Observable } from '../Observable';
  * @method isEmpty
  * @owner Observable
  */
-export function isEmpty<T>(this: Observable<T>): Observable<boolean> {
+export function isEmpty(): Observable<boolean> {
   return this.lift(new IsEmptyOperator());
+}
+
+export interface IsEmptySignature<T> {
+  (): Observable<boolean>;
 }
 
 class IsEmptyOperator implements Operator<any, boolean> {

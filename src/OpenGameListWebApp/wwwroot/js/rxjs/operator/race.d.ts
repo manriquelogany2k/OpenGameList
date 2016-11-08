@@ -1,7 +1,6 @@
 import { Observable } from '../Observable';
 import { Operator } from '../Operator';
 import { Subscriber } from '../Subscriber';
-import { TeardownLogic } from '../Subscription';
 import { OuterSubscriber } from '../OuterSubscriber';
 import { InnerSubscriber } from '../InnerSubscriber';
 /**
@@ -12,8 +11,11 @@ import { InnerSubscriber } from '../InnerSubscriber';
  * @method race
  * @owner Observable
  */
-export declare function race<T>(this: Observable<T>, ...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
-export declare function race<T, R>(this: Observable<T>, ...observables: Array<Observable<any> | Array<Observable<T>>>): Observable<R>;
+export declare function race<T>(...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
+export interface RaceSignature<T> {
+    (...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
+    <R>(...observables: Array<Observable<any> | Array<Observable<T>>>): Observable<R>;
+}
 /**
  * Returns an Observable that mirrors the first source Observable to emit an item.
  * @param {...Observables} ...observables sources used to race for which Observable emits first.
@@ -24,7 +26,7 @@ export declare function race<T, R>(this: Observable<T>, ...observables: Array<Ob
  */
 export declare function raceStatic<T>(...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
 export declare class RaceOperator<T> implements Operator<T, T> {
-    call(subscriber: Subscriber<T>, source: any): TeardownLogic;
+    call(subscriber: Subscriber<T>, source: any): any;
 }
 /**
  * We need this JSDoc comment for affecting ESDoc.

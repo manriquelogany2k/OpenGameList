@@ -1,6 +1,6 @@
-import { throttleTime } from '../../operator/throttleTime';
+import { ThrottleTimeSignature } from '../../operator/throttleTime';
 declare module '../../Observable' {
     interface Observable<T> {
-        throttleTime: typeof throttleTime;
+        throttleTime: ThrottleTimeSignature<T>;
     }
 }

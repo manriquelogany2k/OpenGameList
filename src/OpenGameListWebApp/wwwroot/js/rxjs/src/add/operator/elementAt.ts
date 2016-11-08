@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { elementAt } from '../../operator/elementAt';
+import {Observable} from '../../Observable';
+import {elementAt, ElementAtSignature} from '../../operator/elementAt';
 
 Observable.prototype.elementAt = elementAt;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    elementAt: typeof elementAt;
+    elementAt: ElementAtSignature<T>;
   }
 }

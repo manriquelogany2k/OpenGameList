@@ -1,7 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { TeardownLogic } from '../Subscription';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
 
 /**
  * Returns an Observable that skips `n` items emitted by an Observable.
@@ -14,15 +13,19 @@ import { TeardownLogic } from '../Subscription';
  * @method skip
  * @owner Observable
  */
-export function skip<T>(this: Observable<T>, total: number): Observable<T> {
+export function skip<T>(total: number): Observable<T> {
   return this.lift(new SkipOperator(total));
+}
+
+export interface SkipSignature<T> {
+  (total: number): Observable<T>;
 }
 
 class SkipOperator<T> implements Operator<T, T> {
   constructor(private total: number) {
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new SkipSubscriber(subscriber, this.total));
   }
 }

@@ -1,6 +1,6 @@
-import { pluck } from '../../operator/pluck';
+import { PluckSignature } from '../../operator/pluck';
 declare module '../../Observable' {
     interface Observable<T> {
-        pluck: typeof pluck;
+        pluck: PluckSignature<T>;
     }
 }

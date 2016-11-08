@@ -1,7 +1,7 @@
 "use strict";
 var root_1 = require('./util/root');
-var toSubscriber_1 = require('./util/toSubscriber');
 var observable_1 = require('./symbol/observable');
+var toSubscriber_1 = require('./util/toSubscriber');
 /**
  * A representation of any set of values over any amount of time. This the most basic building block
  * of RxJS.
@@ -35,15 +35,21 @@ var Observable = (function () {
         observable.operator = operator;
         return observable;
     };
+    /**
+     * Registers handlers for handling emitted values, error and completions from the observable, and
+     *  executes the observable's subscriber function, which will take action to set up the underlying data stream
+     * @method subscribe
+     * @param {PartialObserver|Function} observerOrNext (optional) either an observer defining all functions to be called,
+     *  or the first of three possible handlers, which is the handler for each value emitted from the observable.
+     * @param {Function} error (optional) a handler for a terminal event resulting from an error. If no error handler is provided,
+     *  the error will be thrown as unhandled
+     * @param {Function} complete (optional) a handler for a terminal event resulting from successful completion.
+     * @return {ISubscription} a subscription reference to the registered handlers
+     */
     Observable.prototype.subscribe = function (observerOrNext, error, complete) {
         var operator = this.operator;
         var sink = toSubscriber_1.toSubscriber(observerOrNext, error, complete);
-        if (operator) {
-            operator.call(sink, this);
-        }
-        else {
-            sink.add(this._subscribe(sink));
-        }
+        sink.add(operator ? operator.call(sink, this) : this._subscribe(sink));
         if (sink.syncErrorThrowable) {
             sink.syncErrorThrowable = false;
             if (sink.syncErrorThrown) {
@@ -90,7 +96,7 @@ var Observable = (function () {
                 else {
                     // if there is NO subscription, then we're getting a nexted
                     // value synchronously during subscription. We can just call it.
-                    // If it errors, Observable's `subscribe` will ensure the
+                    // If it errors, Observable's `subscribe` imple will ensure the
                     // unsubscription logic is called, then synchronously rethrow the error.
                     // After that, Promise will trap the error and send it
                     // down the rejection path.

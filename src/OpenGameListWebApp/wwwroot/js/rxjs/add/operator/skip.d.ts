@@ -1,6 +1,6 @@
-import { skip } from '../../operator/skip';
+import { SkipSignature } from '../../operator/skip';
 declare module '../../Observable' {
     interface Observable<T> {
-        skip: typeof skip;
+        skip: SkipSignature<T>;
     }
 }

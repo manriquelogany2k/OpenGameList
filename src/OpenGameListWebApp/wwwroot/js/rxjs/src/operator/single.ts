@@ -1,9 +1,8 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observer } from '../Observer';
-import { EmptyError } from '../util/EmptyError';
-import { TeardownLogic } from '../Subscription';
+import {Observable} from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observer} from '../Observer';
+import {EmptyError} from '../util/EmptyError';
 
 /**
  * Returns an Observable that emits the single item emitted by the source Observable that matches a specified
@@ -21,8 +20,12 @@ import { TeardownLogic } from '../Subscription';
  * @method single
  * @owner Observable
  */
-export function single<T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T> {
+export function single<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T> {
   return this.lift(new SingleOperator(predicate, this));
+}
+
+export interface SingleSignature<T> {
+  (predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T>;
 }
 
 class SingleOperator<T> implements Operator<T, T> {
@@ -30,7 +33,7 @@ class SingleOperator<T> implements Operator<T, T> {
               private source?: Observable<T>) {
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new SingleSubscriber(subscriber, this.predicate, this.source));
   }
 }

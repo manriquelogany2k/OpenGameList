@@ -1,7 +1,7 @@
-import { letProto } from '../../operator/let';
+import { LetSignature } from '../../operator/let';
 declare module '../../Observable' {
     interface Observable<T> {
-        let: typeof letProto;
-        letBind: typeof letProto;
+        let: LetSignature<T>;
+        letBind: LetSignature<T>;
     }
 }

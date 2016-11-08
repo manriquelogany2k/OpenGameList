@@ -1,4 +1,3 @@
-import { Observable } from '../Observable';
 /**
  * Converts a higher-order Observable into a first-order Observable by
  * subscribing to only the most recently emitted of those inner Observables.
@@ -41,4 +40,7 @@ import { Observable } from '../Observable';
  * @name switch
  * @owner Observable
  */
-export declare function _switch<T>(this: Observable<T>): T;
+export declare function _switch<T>(): T;
+export interface SwitchSignature<T> {
+    (): T;
+}

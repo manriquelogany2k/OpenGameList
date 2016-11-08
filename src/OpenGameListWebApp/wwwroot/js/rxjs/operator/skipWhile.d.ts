@@ -11,4 +11,7 @@ import { Observable } from '../Observable';
  * @method skipWhile
  * @owner Observable
  */
-export declare function skipWhile<T>(this: Observable<T>, predicate: (value: T, index: number) => boolean): Observable<T>;
+export declare function skipWhile<T>(predicate: (value: T, index: number) => boolean): Observable<T>;
+export interface SkipWhileSignature<T> {
+    (predicate: (value: T, index: number) => boolean): Observable<T>;
+}

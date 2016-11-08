@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { debounce } from '../../operator/debounce';
+import {Observable} from '../../Observable';
+import {debounce, DebounceSignature} from '../../operator/debounce';
 
 Observable.prototype.debounce = debounce;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    debounce: typeof debounce;
+    debounce: DebounceSignature<T>;
   }
 }

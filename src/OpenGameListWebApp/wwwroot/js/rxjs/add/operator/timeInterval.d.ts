@@ -1,6 +1,6 @@
-import { timeInterval } from '../../operator/timeInterval';
+import { TimeIntervalSignature } from '../../operator/timeInterval';
 declare module '../../Observable' {
     interface Observable<T> {
-        timeInterval: typeof timeInterval;
+        timeInterval: TimeIntervalSignature<T>;
     }
 }

@@ -1,6 +1,6 @@
-import { toPromise } from '../../operator/toPromise';
+import { ToPromiseSignature } from '../../operator/toPromise';
 declare module '../../Observable' {
     interface Observable<T> {
-        toPromise: typeof toPromise;
+        toPromise: ToPromiseSignature<T>;
     }
 }

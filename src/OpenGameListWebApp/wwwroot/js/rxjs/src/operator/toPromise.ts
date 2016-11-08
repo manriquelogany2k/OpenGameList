@@ -1,5 +1,4 @@
-import { Observable } from '../Observable';
-import { root } from '../util/root';
+import {root} from '../util/root';
 
 /**
  * @param PromiseCtor
@@ -7,11 +6,7 @@ import { root } from '../util/root';
  * @method toPromise
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function toPromise<T>(this: Observable<T>): Promise<T>;
-export function toPromise<T>(this: Observable<T>, PromiseCtor: typeof Promise): Promise<T>;
-/* tslint:disable:max-line-length */
-export function toPromise<T>(this: Observable<T>, PromiseCtor?: typeof Promise): Promise<T> {
+export function toPromise<T>(PromiseCtor?: typeof Promise): Promise<T> {
   if (!PromiseCtor) {
     if (root.Rx && root.Rx.config && root.Rx.config.Promise) {
       PromiseCtor = root.Rx.config.Promise;
@@ -28,4 +23,9 @@ export function toPromise<T>(this: Observable<T>, PromiseCtor?: typeof Promise):
     let value: any;
     this.subscribe((x: T) => value = x, (err: any) => reject(err), () => resolve(value));
   });
+}
+
+export interface ToPromiseSignature<T> {
+  (): Promise<T>;
+  (PromiseCtor: typeof Promise): Promise<T>;
 }

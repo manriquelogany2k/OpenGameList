@@ -1,7 +1,7 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { EmptyError } from '../util/EmptyError';
+import {Observable} from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {EmptyError} from '../util/EmptyError';
 
 /**
  * Emits only the first value (or the first value that meets some condition)
@@ -52,22 +52,22 @@ import { EmptyError } from '../util/EmptyError';
  * @method first
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function first<T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T>;
-export function first<T, S extends T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => value is S): Observable<S>;
-export function first<T>(this: Observable<T>, predicate: (value: T, index: number, source: Observable<T>) => boolean, resultSelector: void, defaultValue?: T): Observable<T>;
-export function first<T, S extends T>(this: Observable<T>, predicate: (value: T, index: number, source: Observable<T>) => value is S, resultSelector: void, defaultValue?: S): Observable<S>;
-export function first<T, R>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean, resultSelector?: (value: T, index: number) => R, defaultValue?: R): Observable<R>;
-/* tslint:disable:max-line-length */
-export function first<T, R>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-                            resultSelector?: ((value: T, index: number) => R) | void,
+export function first<T, R>(predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+                            resultSelector?: (value: T, index: number) => R,
                             defaultValue?: R): Observable<T | R> {
   return this.lift(new FirstOperator(predicate, resultSelector, defaultValue, this));
 }
 
+export interface FirstSignature<T> {
+  (predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T>;
+  (predicate: (value: T, index: number, source: Observable<T>) => boolean, resultSelector: void, defaultValue?: T): Observable<T>;
+  <R>(predicate?: (value: T, index: number, source: Observable<T>) => boolean, resultSelector?: (value: T, index: number) => R,
+      defaultValue?: R): Observable<R>;
+}
+
 class FirstOperator<T, R> implements Operator<T, R> {
   constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private resultSelector?: ((value: T, index: number) => R) | void,
+              private resultSelector?: (value: T, index: number) => R,
               private defaultValue?: any,
               private source?: Observable<T>) {
   }
@@ -88,7 +88,7 @@ class FirstSubscriber<T, R> extends Subscriber<T> {
 
   constructor(destination: Subscriber<R>,
               private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private resultSelector?: ((value: T, index: number) => R) | void,
+              private resultSelector?: (value: T, index: number) => R,
               private defaultValue?: any,
               private source?: Observable<T>) {
     super(destination);
@@ -127,7 +127,7 @@ class FirstSubscriber<T, R> extends Subscriber<T> {
   private _tryResultSelector(value: T, index: number) {
     let result: any;
     try {
-      result = (<any>this).resultSelector(value, index);
+      result = this.resultSelector(value, index);
     } catch (err) {
       this.destination.error(err);
       return;

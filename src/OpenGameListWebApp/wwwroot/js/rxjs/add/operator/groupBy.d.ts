@@ -1,6 +1,6 @@
-import { groupBy } from '../../operator/groupBy';
+import { GroupBySignature } from '../../operator/groupBy';
 declare module '../../Observable' {
     interface Observable<T> {
-        groupBy: typeof groupBy;
+        groupBy: GroupBySignature<T>;
     }
 }

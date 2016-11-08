@@ -1,10 +1,10 @@
-import { Operator } from '../Operator';
-import { Observable, ObservableInput } from '../Observable';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
+import {Operator} from '../Operator';
+import {Observable, ObservableInput} from '../Observable';
+import {Subscriber} from '../Subscriber';
+import {Subscription} from '../Subscription';
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
+import {subscribeToResult} from '../util/subscribeToResult';
 
 /**
  * Projects each source value to an Observable which is merged in the output
@@ -51,13 +51,15 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method exhaustMap
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function exhaustMap<T, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<R>): Observable<R>;
-export function exhaustMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
-/* tslint:disable:max-line-length */
-export function exhaustMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>,
+export function exhaustMap<T, I, R>(project: (value: T, index: number) => ObservableInput<I>,
                                     resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R> {
   return this.lift(new SwitchFirstMapOperator(project, resultSelector));
+}
+
+export interface SwitchFirstMapSignature<T> {
+  <R>(project: (value: T, index: number) => ObservableInput<R>): Observable<R>;
+  <I, R>(project: (value: T, index: number) => ObservableInput<I>,
+         resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
 }
 
 class SwitchFirstMapOperator<T, I, R> implements Operator<T, R> {

@@ -1,8 +1,7 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { PartialObserver } from '../Observer';
-import { TeardownLogic } from '../Subscription';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
+import {PartialObserver} from '../Observer';
 
 /**
  * Perform a side effect for every emission on the source Observable, but return
@@ -47,14 +46,15 @@ import { TeardownLogic } from '../Subscription';
  * @name do
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function _do<T>(next: (x: T) => void, error?: (e: any) => void, complete?: (this: Observable<T>) => void): Observable<T>;
-export function _do<T>(this: Observable<T>, observer: PartialObserver<T>): Observable<T>;
-/* tslint:disable:max-line-length */
-export function _do<T>(this: Observable<T>, nextOrObserver?: PartialObserver<T> | ((x: T) => void),
+export function _do<T>(nextOrObserver?: PartialObserver<T> | ((x: T) => void),
                        error?: (e: any) => void,
                        complete?: () => void): Observable<T> {
   return this.lift(new DoOperator(nextOrObserver, error, complete));
+}
+
+export interface DoSignature<T> {
+  (next: (x: T) => void, error?: (e: any) => void, complete?: () => void): Observable<T>;
+  (observer: PartialObserver<T>): Observable<T>;
 }
 
 class DoOperator<T> implements Operator<T, T> {
@@ -62,7 +62,7 @@ class DoOperator<T> implements Operator<T, T> {
               private error?: (e: any) => void,
               private complete?: () => void) {
   }
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new DoSubscriber(subscriber, this.nextOrObserver, this.error, this.complete));
   }
 }
@@ -118,3 +118,4 @@ class DoSubscriber<T> extends Subscriber<T> {
     }
   }
 }
+

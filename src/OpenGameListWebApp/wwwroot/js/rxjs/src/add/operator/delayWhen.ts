@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { delayWhen } from '../../operator/delayWhen';
+import {Observable} from '../../Observable';
+import {delayWhen, DelayWhenSignature} from '../../operator/delayWhen';
 
 Observable.prototype.delayWhen = delayWhen;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    delayWhen: typeof delayWhen;
+    delayWhen: DelayWhenSignature<T>;
   }
 }

@@ -1,6 +1,6 @@
-import { windowWhen } from '../../operator/windowWhen';
+import { WindowWhenSignature } from '../../operator/windowWhen';
 declare module '../../Observable' {
     interface Observable<T> {
-        windowWhen: typeof windowWhen;
+        windowWhen: WindowWhenSignature<T>;
     }
 }

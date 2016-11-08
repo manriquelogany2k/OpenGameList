@@ -21,6 +21,7 @@
       'platform-browser',
       'platform-browser-dynamic',
       'upgrade',
+      'forms'
     ];
 
     function packIndex(pkgName) {

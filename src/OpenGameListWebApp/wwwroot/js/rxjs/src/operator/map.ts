@@ -1,6 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
 
 /**
  * Applies a given `project` function to each value emitted by the source
@@ -35,14 +35,18 @@ import { Observable } from '../Observable';
  * @method map
  * @owner Observable
  */
-export function map<T, R>(this: Observable<T>, project: (value: T, index: number) => R, thisArg?: any): Observable<R> {
+export function map<T, R>(project: (value: T, index: number) => R, thisArg?: any): Observable<R> {
   if (typeof project !== 'function') {
     throw new TypeError('argument is not a function. Are you looking for `mapTo()`?');
   }
   return this.lift(new MapOperator(project, thisArg));
 }
 
-export class MapOperator<T, R> implements Operator<T, R> {
+export interface MapSignature<T> {
+  <R>(project: (value: T, index: number) => R, thisArg?: any): Observable<R>;
+}
+
+class MapOperator<T, R> implements Operator<T, R> {
   constructor(private project: (value: T, index: number) => R, private thisArg: any) {
   }
 

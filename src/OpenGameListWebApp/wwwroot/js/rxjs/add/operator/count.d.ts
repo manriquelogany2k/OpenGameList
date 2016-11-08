@@ -1,6 +1,6 @@
-import { count } from '../../operator/count';
+import { CountSignature } from '../../operator/count';
 declare module '../../Observable' {
     interface Observable<T> {
-        count: typeof count;
+        count: CountSignature<T>;
     }
 }

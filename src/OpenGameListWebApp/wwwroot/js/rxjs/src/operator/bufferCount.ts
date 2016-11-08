@@ -1,6 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
 
 /**
  * Buffers the source Observable values until the size hits the maximum
@@ -31,7 +31,6 @@ import { Observable } from '../Observable';
  * @see {@link bufferTime}
  * @see {@link bufferToggle}
  * @see {@link bufferWhen}
- * @see {@link pairwise}
  * @see {@link windowCount}
  *
  * @param {number} bufferSize The maximum size of the buffer emitted.
@@ -43,8 +42,12 @@ import { Observable } from '../Observable';
  * @method bufferCount
  * @owner Observable
  */
-export function bufferCount<T>(this: Observable<T>, bufferSize: number, startBufferEvery: number = null): Observable<T[]> {
+export function bufferCount<T>(bufferSize: number, startBufferEvery: number = null): Observable<T[]> {
   return this.lift(new BufferCountOperator<T>(bufferSize, startBufferEvery));
+}
+
+export interface BufferCountSignature<T> {
+  (bufferSize: number, startBufferEvery?: number): Observable<T[]>;
 }
 
 class BufferCountOperator<T> implements Operator<T, T[]> {

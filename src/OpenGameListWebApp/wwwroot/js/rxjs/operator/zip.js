@@ -10,13 +10,19 @@ var Subscriber_1 = require('../Subscriber');
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
 var iterator_1 = require('../symbol/iterator');
-/* tslint:disable:max-line-length */
+/**
+ * @param observables
+ * @return {Observable<R>}
+ * @method zip
+ * @owner Observable
+ */
 function zipProto() {
     var observables = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         observables[_i - 0] = arguments[_i];
     }
-    return this.lift.call(zipStatic.apply(void 0, [this].concat(observables)));
+    observables.unshift(this);
+    return zipStatic.apply(this, observables);
 }
 exports.zipProto = zipProto;
 /* tslint:enable:max-line-length */
@@ -181,7 +187,7 @@ var StaticArrayIterator = (function () {
     StaticArrayIterator.prototype.next = function (value) {
         var i = this.index++;
         var array = this.array;
-        return i < this.length ? { value: array[i], done: false } : { value: null, done: true };
+        return i < this.length ? { value: array[i], done: false } : { done: true };
     };
     StaticArrayIterator.prototype.hasValue = function () {
         return this.array.length > this.index;
@@ -215,7 +221,7 @@ var ZipBufferIterator = (function (_super) {
     ZipBufferIterator.prototype.next = function () {
         var buffer = this.buffer;
         if (buffer.length === 0 && this.isComplete) {
-            return { value: null, done: true };
+            return { done: true };
         }
         else {
             return { value: buffer.shift(), done: false };

@@ -4,4 +4,7 @@ import { Observable } from '../Observable';
  * @method toArray
  * @owner Observable
  */
-export declare function toArray<T>(this: Observable<T>): Observable<T[]>;
+export declare function toArray<T>(): Observable<T[]>;
+export interface ToArraySignature<T> {
+    (): Observable<T[]>;
+}

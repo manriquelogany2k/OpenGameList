@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { min } from '../../operator/min';
+import {Observable} from '../../Observable';
+import {min, MinSignature} from '../../operator/min';
 
 Observable.prototype.min = min;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    min: typeof min;
+    min: MinSignature<T>;
   }
 }

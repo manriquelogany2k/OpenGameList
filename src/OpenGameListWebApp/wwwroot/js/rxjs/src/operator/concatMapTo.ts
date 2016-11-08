@@ -1,5 +1,5 @@
-import { Observable, ObservableInput } from '../Observable';
-import { MergeMapToOperator } from './mergeMapTo';
+import {Observable, ObservableInput} from '../Observable';
+import {MergeMapToOperator} from './mergeMapTo';
 
 /**
  * Projects each source value to the same Observable which is merged multiple
@@ -51,11 +51,13 @@ import { MergeMapToOperator } from './mergeMapTo';
  * @method concatMapTo
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function concatMapTo<T, R>(this: Observable<T>, observable: ObservableInput<R>): Observable<R>;
-export function concatMapTo<T, I, R>(this: Observable<T>, observable: ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
-/* tslint:disable:max-line-length */
-export function concatMapTo<T, I, R>(this: Observable<T>, innerObservable: Observable<I>,
+export function concatMapTo<T, I, R>(innerObservable: Observable<I>,
                                      resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R> {
   return this.lift(new MergeMapToOperator(innerObservable, resultSelector, 1));
+}
+
+export interface ConcatMapToSignature<T> {
+  <R>(observable: ObservableInput<R>): Observable<R>;
+  <I, R>(observable: ObservableInput<I>,
+         resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
 }

@@ -1,6 +1,6 @@
-import { takeUntil } from '../../operator/takeUntil';
+import { TakeUntilSignature } from '../../operator/takeUntil';
 declare module '../../Observable' {
     interface Observable<T> {
-        takeUntil: typeof takeUntil;
+        takeUntil: TakeUntilSignature<T>;
     }
 }

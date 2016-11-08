@@ -1,10 +1,9 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Subscription} from '../Subscription';
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
+import {subscribeToResult} from '../util/subscribeToResult';
 
 /**
  * Converts a higher-order Observable into a first-order Observable by
@@ -48,8 +47,12 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @name switch
  * @owner Observable
  */
-export function _switch<T>(this: Observable<T>): T {
-  return <any>this.lift<any>(new SwitchOperator());
+export function _switch<T>(): T {
+  return this.lift(new SwitchOperator());
+}
+
+export interface SwitchSignature<T> {
+  (): T;
 }
 
 class SwitchOperator<T, R> implements Operator<T, R> {

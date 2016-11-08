@@ -15,4 +15,7 @@ import { Observable } from '../Observable';
  * @method retryWhen
  * @owner Observable
  */
-export declare function retryWhen<T>(this: Observable<T>, notifier: (errors: Observable<any>) => Observable<any>): Observable<T>;
+export declare function retryWhen<T>(notifier: (errors: Observable<any>) => Observable<any>): Observable<T>;
+export interface RetryWhenSignature<T> {
+    (notifier: (errors: Observable<any>) => Observable<any>): Observable<T>;
+}

@@ -1,6 +1,6 @@
-import { expand } from '../../operator/expand';
+import { ExpandSignature } from '../../operator/expand';
 declare module '../../Observable' {
     interface Observable<T> {
-        expand: typeof expand;
+        expand: ExpandSignature<T>;
     }
 }

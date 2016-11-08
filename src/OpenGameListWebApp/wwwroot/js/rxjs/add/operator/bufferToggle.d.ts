@@ -1,6 +1,6 @@
-import { bufferToggle } from '../../operator/bufferToggle';
+import { BufferToggleSignature } from '../../operator/bufferToggle';
 declare module '../../Observable' {
     interface Observable<T> {
-        bufferToggle: typeof bufferToggle;
+        bufferToggle: BufferToggleSignature<T>;
     }
 }

@@ -1,6 +1,6 @@
-import { exhaust } from '../../operator/exhaust';
+import { SwitchFirstSignature } from '../../operator/exhaust';
 declare module '../../Observable' {
     interface Observable<T> {
-        exhaust: typeof exhaust;
+        exhaust: SwitchFirstSignature<T>;
     }
 }

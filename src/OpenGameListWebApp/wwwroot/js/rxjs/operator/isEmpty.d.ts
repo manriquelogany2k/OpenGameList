@@ -8,4 +8,7 @@ import { Observable } from '../Observable';
  * @method isEmpty
  * @owner Observable
  */
-export declare function isEmpty<T>(this: Observable<T>): Observable<boolean>;
+export declare function isEmpty(): Observable<boolean>;
+export interface IsEmptySignature<T> {
+    (): Observable<boolean>;
+}

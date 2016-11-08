@@ -1,8 +1,7 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { EmptyObservable } from '../observable/EmptyObservable';
-import { TeardownLogic } from '../Subscription';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
+import {EmptyObservable} from '../observable/EmptyObservable';
 
 /**
  * Returns an Observable that repeats the stream of items emitted by the source Observable at most count times,
@@ -18,7 +17,7 @@ import { TeardownLogic } from '../Subscription';
  * @method repeat
  * @owner Observable
  */
-export function repeat<T>(this: Observable<T>, count: number = -1): Observable<T> {
+export function repeat<T>(count: number = -1): Observable<T> {
   if (count === 0) {
     return new EmptyObservable<T>();
   } else if (count < 0) {
@@ -28,11 +27,15 @@ export function repeat<T>(this: Observable<T>, count: number = -1): Observable<T
   }
 }
 
+export interface RepeatSignature<T> {
+  (count?: number): Observable<T>;
+}
+
 class RepeatOperator<T> implements Operator<T, T> {
   constructor(private count: number,
               private source: Observable<T>) {
   }
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new RepeatSubscriber(subscriber, this.count, this.source));
   }
 }
@@ -58,7 +61,7 @@ class RepeatSubscriber<T> extends Subscriber<T> {
       }
       this.unsubscribe();
       this.isStopped = false;
-      this.closed = false;
+      this.isUnsubscribed = false;
       source.subscribe(this);
     }
   }

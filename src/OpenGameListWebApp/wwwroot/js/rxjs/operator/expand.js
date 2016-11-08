@@ -8,7 +8,16 @@ var tryCatch_1 = require('../util/tryCatch');
 var errorObject_1 = require('../util/errorObject');
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
-/* tslint:disable:max-line-length */
+/**
+ * Returns an Observable where for each item in the source Observable, the supplied function is applied to each item,
+ * resulting in a new value to then be applied again with the function.
+ * @param {function} project the function for projecting the next emitted item of the Observable.
+ * @param {number} [concurrent] the max number of observables that can be created concurrently. defaults to infinity.
+ * @param {Scheduler} [scheduler] The Scheduler to use for managing the expansions.
+ * @return {Observable} an Observable containing the expansions of the source Observable.
+ * @method expand
+ * @owner Observable
+ */
 function expand(project, concurrent, scheduler) {
     if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
     if (scheduler === void 0) { scheduler = undefined; }
@@ -53,7 +62,7 @@ var ExpandSubscriber = (function (_super) {
     };
     ExpandSubscriber.prototype._next = function (value) {
         var destination = this.destination;
-        if (destination.closed) {
+        if (destination.isUnsubscribed) {
             this._complete();
             return;
         }

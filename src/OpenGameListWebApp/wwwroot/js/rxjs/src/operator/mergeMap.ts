@@ -1,10 +1,10 @@
-import { Observable, ObservableInput } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { subscribeToResult } from '../util/subscribeToResult';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
+import {Observable, ObservableInput} from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Subscription} from '../Subscription';
+import {subscribeToResult} from '../util/subscribeToResult';
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
 
 /**
  * Projects each source value to an Observable which is merged in the output
@@ -55,18 +55,21 @@ import { InnerSubscriber } from '../InnerSubscriber';
  * @method mergeMap
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function mergeMap<T, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<R>, concurrent?: number): Observable<R>;
-export function mergeMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
-/* tslint:disable:max-line-length */
-export function mergeMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>,
+export function mergeMap<T, I, R>(project: (value: T, index: number) => ObservableInput<I>,
                                   resultSelector?: ((outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R) | number,
-                                  concurrent: number = Number.POSITIVE_INFINITY): Observable<I | R> {
+                                  concurrent: number = Number.POSITIVE_INFINITY): Observable<R> {
   if (typeof resultSelector === 'number') {
     concurrent = <number>resultSelector;
     resultSelector = null;
   }
   return this.lift(new MergeMapOperator(project, <any>resultSelector, concurrent));
+}
+
+export interface MergeMapSignature<T> {
+  <R>(project: (value: T, index: number) => ObservableInput<R>, concurrent?: number): Observable<R>;
+  <I, R>(project: (value: T, index: number) => ObservableInput<I>,
+         resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R,
+         concurrent?: number): Observable<R>;
 }
 
 export class MergeMapOperator<T, I, R> implements Operator<T, I> {
@@ -89,7 +92,7 @@ export class MergeMapOperator<T, I, R> implements Operator<T, I> {
  */
 export class MergeMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
   private hasCompleted: boolean = false;
-  private buffer: T[] = [];
+  private buffer: Observable<any>[] = [];
   private active: number = 0;
   protected index: number = 0;
 
@@ -100,7 +103,7 @@ export class MergeMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
     super(destination);
   }
 
-  protected _next(value: T): void {
+  protected _next(value: any): void {
     if (this.active < this.concurrent) {
       this._tryNext(value);
     } else {
@@ -108,8 +111,8 @@ export class MergeMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
     }
   }
 
-  protected _tryNext(value: T) {
-    let result: ObservableInput<I>;
+  protected _tryNext(value: any) {
+    let result: any;
     const index = this.index++;
     try {
       result = this.project(value, index);
@@ -121,7 +124,7 @@ export class MergeMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
     this._innerSub(result, value, index);
   }
 
-  private _innerSub(ish: ObservableInput<I>, value: T, index: number): void {
+  private _innerSub(ish: any, value: T, index: number): void {
     this.add(subscribeToResult<T, I>(this, ish, value, index));
   }
 
@@ -142,7 +145,7 @@ export class MergeMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
     }
   }
 
-  private _notifyResultSelector(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) {
+  _notifyResultSelector(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) {
     let result: R;
     try {
       result = this.resultSelector(outerValue, innerValue, outerIndex, innerIndex);

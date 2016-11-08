@@ -11,4 +11,7 @@ import { Observable } from '../Observable';
  * @method share
  * @owner Observable
  */
-export declare function share<T>(this: Observable<T>): Observable<T>;
+export declare function share<T>(): Observable<T>;
+export interface ShareSignature<T> {
+    (): Observable<T>;
+}

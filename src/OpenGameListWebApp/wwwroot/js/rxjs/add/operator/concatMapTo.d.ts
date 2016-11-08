@@ -1,6 +1,6 @@
-import { concatMapTo } from '../../operator/concatMapTo';
+import { ConcatMapToSignature } from '../../operator/concatMapTo';
 declare module '../../Observable' {
     interface Observable<T> {
-        concatMapTo: typeof concatMapTo;
+        concatMapTo: ConcatMapToSignature<T>;
     }
 }

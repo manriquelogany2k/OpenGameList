@@ -1,6 +1,6 @@
-import { merge } from '../../operator/merge';
+import { MergeSignature } from '../../operator/merge';
 declare module '../../Observable' {
     interface Observable<T> {
-        merge: typeof merge;
+        merge: MergeSignature<T>;
     }
 }

@@ -1,6 +1,6 @@
-import { concat } from '../../operator/concat';
+import { ConcatSignature } from '../../operator/concat';
 declare module '../../Observable' {
     interface Observable<T> {
-        concat: typeof concat;
+        concat: ConcatSignature<T>;
     }
 }

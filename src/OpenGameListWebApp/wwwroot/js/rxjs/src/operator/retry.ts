@@ -1,7 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { TeardownLogic } from '../Subscription';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
 
 /**
  * Returns an Observable that mirrors the source Observable, resubscribing to it if it calls `error` and the
@@ -20,8 +19,12 @@ import { TeardownLogic } from '../Subscription';
  * @method retry
  * @owner Observable
  */
-export function retry<T>(this: Observable<T>, count: number = -1): Observable<T> {
+export function retry<T>(count: number = -1): Observable<T> {
   return this.lift(new RetryOperator(count, this));
+}
+
+export interface RetrySignature<T> {
+  (count?: number): Observable<T>;
 }
 
 class RetryOperator<T> implements Operator<T, T> {
@@ -29,7 +32,7 @@ class RetryOperator<T> implements Operator<T, T> {
               private source: Observable<T>) {
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new RetrySubscriber(subscriber, this.count, this.source));
   }
 }
@@ -55,7 +58,7 @@ class RetrySubscriber<T> extends Subscriber<T> {
       }
       this.unsubscribe();
       this.isStopped = false;
-      this.closed = false;
+      this.isUnsubscribed = false;
       source.subscribe(this);
     }
   }

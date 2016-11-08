@@ -1,11 +1,11 @@
-import { Observable, ObservableInput } from '../Observable';
-import { Operator } from '../Operator';
-import { PartialObserver } from '../Observer';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
+import {Observable, ObservableInput, SubscribableOrPromise} from '../Observable';
+import {Operator} from '../Operator';
+import {PartialObserver} from '../Observer';
+import {Subscriber} from '../Subscriber';
+import {Subscription} from '../Subscription';
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
+import {subscribeToResult} from '../util/subscribeToResult';
 
 /**
  * Projects each source value to the same Observable which is merged multiple
@@ -50,11 +50,7 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method mergeMapTo
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function mergeMapTo<T, R>(this: Observable<T>, observable: ObservableInput<R>, concurrent?: number): Observable<R>;
-export function mergeMapTo<T, I, R>(this: Observable<T>, observable: ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
-/* tslint:disable:max-line-length */
-export function mergeMapTo<T, I, R>(this: Observable<T>, innerObservable: Observable<I>,
+export function mergeMapTo<T, I, R>(innerObservable: Observable<I>,
                                     resultSelector?: ((outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R) | number,
                                     concurrent: number = Number.POSITIVE_INFINITY): Observable<R> {
   if (typeof resultSelector === 'number') {
@@ -64,10 +60,17 @@ export function mergeMapTo<T, I, R>(this: Observable<T>, innerObservable: Observ
   return this.lift(new MergeMapToOperator(innerObservable, <any>resultSelector, concurrent));
 }
 
+export interface MergeMapToSignature<T> {
+  <R>(observable: ObservableInput<R>, concurrent?: number): Observable<R>;
+  <I, R>(observable: ObservableInput<I>,
+         resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R,
+         concurrent?: number): Observable<R>;
+}
+
 // TODO: Figure out correct signature here: an Operator<Observable<T>, R>
 //       needs to implement call(observer: Subscriber<R>): Subscriber<Observable<T>>
 export class MergeMapToOperator<T, I, R> implements Operator<Observable<T>, R> {
-  constructor(private ish: ObservableInput<I>,
+  constructor(private ish: SubscribableOrPromise<I>,
               private resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R,
               private concurrent: number = Number.POSITIVE_INFINITY) {
   }
@@ -84,18 +87,18 @@ export class MergeMapToOperator<T, I, R> implements Operator<Observable<T>, R> {
  */
 export class MergeMapToSubscriber<T, I, R> extends OuterSubscriber<T, I> {
   private hasCompleted: boolean = false;
-  private buffer: T[] = [];
+  private buffer: Observable<any>[] = [];
   private active: number = 0;
   protected index: number = 0;
 
   constructor(destination: Subscriber<R>,
-              private ish: ObservableInput<I>,
+              private ish: SubscribableOrPromise<I>,
               private resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R,
               private concurrent: number = Number.POSITIVE_INFINITY) {
     super(destination);
   }
 
-  protected _next(value: T): void {
+  protected _next(value: any): void {
     if (this.active < this.concurrent) {
       const resultSelector = this.resultSelector;
       const index = this.index++;
@@ -109,7 +112,7 @@ export class MergeMapToSubscriber<T, I, R> extends OuterSubscriber<T, I> {
     }
   }
 
-  private _innerSub(ish: ObservableInput<I>,
+  private _innerSub(ish: any,
                     destination: PartialObserver<I>,
                     resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R,
                     value: T,

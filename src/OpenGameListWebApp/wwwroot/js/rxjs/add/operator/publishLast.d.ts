@@ -1,6 +1,6 @@
-import { publishLast } from '../../operator/publishLast';
+import { PublishLastSignature } from '../../operator/publishLast';
 declare module '../../Observable' {
     interface Observable<T> {
-        publishLast: typeof publishLast;
+        publishLast: PublishLastSignature<T>;
     }
 }

@@ -16,4 +16,7 @@ import { Observable } from '../Observable';
  * @method retry
  * @owner Observable
  */
-export declare function retry<T>(this: Observable<T>, count?: number): Observable<T>;
+export declare function retry<T>(count?: number): Observable<T>;
+export interface RetrySignature<T> {
+    (count?: number): Observable<T>;
+}

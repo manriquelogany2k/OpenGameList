@@ -1,7 +1,6 @@
-import { _switch } from '../../operator/switch';
+import { SwitchSignature } from '../../operator/switch';
 declare module '../../Observable' {
     interface Observable<T> {
-        switch: typeof _switch;
-        _switch: typeof _switch;
+        switch: SwitchSignature<T>;
     }
 }

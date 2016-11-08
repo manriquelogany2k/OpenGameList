@@ -1,9 +1,9 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
-import { Subscriber } from '../Subscriber';
-import { Subscription, TeardownLogic } from '../Subscription';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
+import {Operator} from '../Operator';
+import {Observable} from '../Observable';
+import {Subscriber} from '../Subscriber';
+import {Subscription} from '../Subscription';
+import {OuterSubscriber} from '../OuterSubscriber';
+import {subscribeToResult} from '../util/subscribeToResult';
 
 /**
  * Converts a higher-order Observable into a first-order Observable by dropping
@@ -41,12 +41,16 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method exhaust
  * @owner Observable
  */
-export function exhaust<T>(this: Observable<T>): Observable<T> {
+export function exhaust<T>(): Observable<T> {
   return this.lift(new SwitchFirstOperator<T>());
 }
 
+export interface SwitchFirstSignature<T> {
+  (): T;
+}
+
 class SwitchFirstOperator<T> implements Operator<T, T> {
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new SwitchFirstSubscriber(subscriber));
   }
 }

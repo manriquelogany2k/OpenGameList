@@ -1,6 +1,6 @@
-import { combineLatest } from '../../operator/combineLatest';
+import { CombineLatestSignature } from '../../operator/combineLatest';
 declare module '../../Observable' {
     interface Observable<T> {
-        combineLatest: typeof combineLatest;
+        combineLatest: CombineLatestSignature<T>;
     }
 }

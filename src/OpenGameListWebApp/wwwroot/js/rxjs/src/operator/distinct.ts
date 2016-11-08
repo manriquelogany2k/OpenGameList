@@ -1,10 +1,10 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { TeardownLogic } from '../Subscription';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
+import {Observable} from '../Observable';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
+import {subscribeToResult} from '../util/subscribeToResult';
 
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from previous items.
@@ -18,15 +18,19 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method distinct
  * @owner Observable
  */
-export function distinct<T>(this: Observable<T>, compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T> {
+export function distinct<T>(compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T> {
   return this.lift(new DistinctOperator(compare, flushes));
+}
+
+export interface DistinctSignature<T> {
+  (compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T>;
 }
 
 class DistinctOperator<T> implements Operator<T, T> {
   constructor(private compare: (x: T, y: T) => boolean, private flushes: Observable<any>) {
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new DistinctSubscriber(subscriber, this.compare, this.flushes));
   }
 }

@@ -1,6 +1,6 @@
-import { defaultIfEmpty } from '../../operator/defaultIfEmpty';
+import { DefaultIfEmptySignature } from '../../operator/defaultIfEmpty';
 declare module '../../Observable' {
     interface Observable<T> {
-        defaultIfEmpty: typeof defaultIfEmpty;
+        defaultIfEmpty: DefaultIfEmptySignature<T>;
     }
 }

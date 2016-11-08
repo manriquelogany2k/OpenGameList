@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { every } from '../../operator/every';
+import {Observable} from '../../Observable';
+import {every, EverySignature} from '../../operator/every';
 
 Observable.prototype.every = every;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    every: typeof every;
+    every: EverySignature<T>;
   }
 }

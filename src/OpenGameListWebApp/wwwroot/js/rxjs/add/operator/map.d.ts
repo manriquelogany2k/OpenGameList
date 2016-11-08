@@ -1,6 +1,6 @@
-import { map } from '../../operator/map';
+import { MapSignature } from '../../operator/map';
 declare module '../../Observable' {
     interface Observable<T> {
-        map: typeof map;
+        map: MapSignature<T>;
     }
 }

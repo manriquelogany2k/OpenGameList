@@ -5,7 +5,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Subscriber_1 = require('../Subscriber');
-/* tslint:disable:max-line-length */
+/**
+ * Returns an Observable that emits the elements of the source or a specified default value if empty.
+ * @param {any} defaultValue the default value used if source is empty; defaults to null.
+ * @return {Observable} an Observable of the items emitted by the where empty values are replaced by the specified default value or null.
+ * @method defaultIfEmpty
+ * @owner Observable
+ */
 function defaultIfEmpty(defaultValue) {
     if (defaultValue === void 0) { defaultValue = null; }
     return this.lift(new DefaultIfEmptyOperator(defaultValue));

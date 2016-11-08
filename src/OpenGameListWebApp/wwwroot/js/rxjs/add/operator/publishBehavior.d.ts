@@ -1,6 +1,6 @@
-import { publishBehavior } from '../../operator/publishBehavior';
+import { PublishBehaviorSignature } from '../../operator/publishBehavior';
 declare module '../../Observable' {
     interface Observable<T> {
-        publishBehavior: typeof publishBehavior;
+        publishBehavior: PublishBehaviorSignature<T>;
     }
 }

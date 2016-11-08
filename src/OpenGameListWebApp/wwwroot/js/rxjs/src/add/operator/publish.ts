@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { publish } from '../../operator/publish';
+import {Observable} from '../../Observable';
+import {publish, PublishSignature} from '../../operator/publish';
 
-Observable.prototype.publish = <any>publish;
+Observable.prototype.publish = publish;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    publish: typeof publish;
+    publish: PublishSignature<T>;
   }
 }

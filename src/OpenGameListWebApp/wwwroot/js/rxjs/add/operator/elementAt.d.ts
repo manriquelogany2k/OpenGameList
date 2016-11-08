@@ -1,6 +1,6 @@
-import { elementAt } from '../../operator/elementAt';
+import { ElementAtSignature } from '../../operator/elementAt';
 declare module '../../Observable' {
     interface Observable<T> {
-        elementAt: typeof elementAt;
+        elementAt: ElementAtSignature<T>;
     }
 }

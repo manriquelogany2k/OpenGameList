@@ -1,10 +1,10 @@
-import { Observable } from '../../Observable';
-import { auditTime } from '../../operator/auditTime';
+import {Observable} from '../../Observable';
+import {auditTime, AuditTimeSignature} from '../../operator/auditTime';
 
 Observable.prototype.auditTime = auditTime;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    auditTime: typeof auditTime;
+    auditTime: AuditTimeSignature<T>;
   }
 }

@@ -1,12 +1,13 @@
-import { PartialObserver } from './Observer';
-import { Operator } from './Operator';
-import { Subscriber } from './Subscriber';
-import { Subscription, AnonymousSubscription, TeardownLogic } from './Subscription';
-import { root } from './util/root';
-import { toSubscriber } from './util/toSubscriber';
-import { IfObservable } from './observable/IfObservable';
-import { ErrorObservable } from './observable/ErrorObservable';
-import { $$observable } from './symbol/observable';
+import {PartialObserver} from './Observer';
+import {Operator} from './Operator';
+import {Subscriber} from './Subscriber';
+import {Subscription, AnonymousSubscription, TeardownLogic} from './Subscription';
+import {root} from './util/root';
+import {$$observable} from './symbol/observable';
+import {toSubscriber} from './util/toSubscriber';
+
+import {IfObservable} from './observable/IfObservable';
+import {ErrorObservable} from './observable/ErrorObservable';
 
 export interface Subscribable<T> {
   subscribe(observerOrNext?: PartialObserver<T> | ((value: T) => void),
@@ -14,7 +15,7 @@ export interface Subscribable<T> {
             complete?: () => void): AnonymousSubscription;
 }
 
-export type SubscribableOrPromise<T> = Subscribable<T> | PromiseLike<T>;
+export type SubscribableOrPromise<T> = Subscribable<T> | Promise<T>;
 export type ObservableInput<T> = SubscribableOrPromise<T> | ArrayLike<T>;
 
 /**
@@ -82,9 +83,6 @@ export class Observable<T> implements Subscribable<T> {
    * @param {Function} complete (optional) a handler for a terminal event resulting from successful completion.
    * @return {ISubscription} a subscription reference to the registered handlers
    */
-  subscribe(): Subscription;
-  subscribe(observer: PartialObserver<T>): Subscription;
-  subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription;
   subscribe(observerOrNext?: PartialObserver<T> | ((value: T) => void),
             error?: (error: any) => void,
             complete?: () => void): Subscription {
@@ -92,11 +90,7 @@ export class Observable<T> implements Subscribable<T> {
     const { operator } = this;
     const sink = toSubscriber(observerOrNext, error, complete);
 
-    if (operator) {
-      operator.call(sink, this);
-    } else {
-      sink.add(this._subscribe(sink));
-    }
+    sink.add(operator ? operator.call(sink, this) : this._subscribe(sink));
 
     if (sink.syncErrorThrowable) {
       sink.syncErrorThrowable = false;
@@ -144,7 +138,7 @@ export class Observable<T> implements Subscribable<T> {
         } else {
           // if there is NO subscription, then we're getting a nexted
           // value synchronously during subscription. We can just call it.
-          // If it errors, Observable's `subscribe` will ensure the
+          // If it errors, Observable's `subscribe` imple will ensure the
           // unsubscription logic is called, then synchronously rethrow the error.
           // After that, Promise will trap the error and send it
           // down the rejection path.

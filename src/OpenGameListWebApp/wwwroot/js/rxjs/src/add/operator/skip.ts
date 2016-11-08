@@ -1,11 +1,11 @@
 
-import { Observable } from '../../Observable';
-import { skip } from '../../operator/skip';
+import {Observable} from '../../Observable';
+import {skip, SkipSignature} from '../../operator/skip';
 
 Observable.prototype.skip = skip;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    skip: typeof skip;
+    skip: SkipSignature<T>;
   }
 }

@@ -1,7 +1,6 @@
-import { _do } from '../../operator/do';
+import { DoSignature } from '../../operator/do';
 declare module '../../Observable' {
     interface Observable<T> {
-        do: typeof _do;
-        _do: typeof _do;
+        do: DoSignature<T>;
     }
 }

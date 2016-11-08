@@ -1,6 +1,6 @@
-import { concatMap } from '../../operator/concatMap';
+import { ConcatMapSignature } from '../../operator/concatMap';
 declare module '../../Observable' {
     interface Observable<T> {
-        concatMap: typeof concatMap;
+        concatMap: ConcatMapSignature<T>;
     }
 }

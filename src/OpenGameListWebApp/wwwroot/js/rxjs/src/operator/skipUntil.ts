@@ -1,10 +1,10 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { TeardownLogic } from '../Subscription';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
+
+import {OuterSubscriber} from '../OuterSubscriber';
+import {InnerSubscriber} from '../InnerSubscriber';
+import {subscribeToResult} from '../util/subscribeToResult';
 
 /**
  * Returns an Observable that skips items emitted by the source Observable until a second Observable emits an item.
@@ -18,15 +18,19 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method skipUntil
  * @owner Observable
  */
-export function skipUntil<T>(this: Observable<T>, notifier: Observable<any>): Observable<T> {
+export function skipUntil<T>(notifier: Observable<any>): Observable<T> {
   return this.lift(new SkipUntilOperator(notifier));
+}
+
+export interface SkipUntilSignature<T> {
+  (notifier: Observable<any>): Observable<T>;
 }
 
 class SkipUntilOperator<T> implements Operator<T, T> {
   constructor(private notifier: Observable<any>) {
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new SkipUntilSubscriber(subscriber, this.notifier));
   }
 }

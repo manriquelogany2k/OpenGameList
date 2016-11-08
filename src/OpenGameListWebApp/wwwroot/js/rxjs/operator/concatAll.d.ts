@@ -1,4 +1,3 @@
-import { Observable } from '../Observable';
 import { Subscribable } from '../Observable';
 /**
  * Converts a higher-order Observable into a first-order Observable by
@@ -42,5 +41,8 @@ import { Subscribable } from '../Observable';
  * @method concatAll
  * @owner Observable
  */
-export declare function concatAll<T>(this: Observable<T>): T;
-export declare function concatAll<T, R>(this: Observable<T>): Subscribable<R>;
+export declare function concatAll<T>(): T;
+export interface ConcatAllSignature<T> {
+    (): T;
+    <R>(): Subscribable<R>;
+}

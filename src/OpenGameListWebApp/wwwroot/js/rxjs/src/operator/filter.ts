@@ -1,7 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { TeardownLogic } from '../Subscription';
+import {Operator} from '../Operator';
+import {Subscriber} from '../Subscriber';
+import {Observable} from '../Observable';
 
 /**
  * Filter items emitted by the source Observable by only emitting those that
@@ -43,13 +42,13 @@ import { TeardownLogic } from '../Subscription';
  * @method filter
  * @owner Observable
  */
-/* tslint:disable:max-line-length */
-export function filter<T>(this: Observable<T>, predicate: (value: T, index: number) => boolean, thisArg?: any): Observable<T>;
-export function filter<T, S extends T>(this: Observable<T>, predicate: (value: T, index: number) => value is S, thisArg?: any): Observable<S>;
-/* tslint:disable:max-line-length */
-export function filter<T>(this: Observable<T>, predicate: (value: T, index: number) => boolean,
+export function filter<T>(predicate: (value: T, index: number) => boolean,
                           thisArg?: any): Observable<T> {
   return this.lift(new FilterOperator(predicate, thisArg));
+}
+
+export interface FilterSignature<T> {
+  (predicate: (value: T, index: number) => boolean, thisArg?: any): Observable<T>;
 }
 
 class FilterOperator<T> implements Operator<T, T> {
@@ -57,7 +56,7 @@ class FilterOperator<T> implements Operator<T, T> {
               private thisArg?: any) {
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+  call(subscriber: Subscriber<T>, source: any): any {
     return source._subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
   }
 }

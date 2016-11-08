@@ -53,8 +53,11 @@ import { InnerSubscriber } from '../InnerSubscriber';
  * @method mergeMap
  * @owner Observable
  */
-export declare function mergeMap<T, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<R>, concurrent?: number): Observable<R>;
-export declare function mergeMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
+export declare function mergeMap<T, I, R>(project: (value: T, index: number) => ObservableInput<I>, resultSelector?: ((outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R) | number, concurrent?: number): Observable<R>;
+export interface MergeMapSignature<T> {
+    <R>(project: (value: T, index: number) => ObservableInput<R>, concurrent?: number): Observable<R>;
+    <I, R>(project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
+}
 export declare class MergeMapOperator<T, I, R> implements Operator<T, I> {
     private project;
     private resultSelector;
@@ -76,11 +79,11 @@ export declare class MergeMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
     private active;
     protected index: number;
     constructor(destination: Subscriber<I>, project: (value: T, index: number) => ObservableInput<I>, resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number);
-    protected _next(value: T): void;
-    protected _tryNext(value: T): void;
+    protected _next(value: any): void;
+    protected _tryNext(value: any): void;
     private _innerSub(ish, value, index);
     protected _complete(): void;
     notifyNext(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number, innerSub: InnerSubscriber<T, I>): void;
-    private _notifyResultSelector(outerValue, innerValue, outerIndex, innerIndex);
+    _notifyResultSelector(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): void;
     notifyComplete(innerSub: Subscription): void;
 }

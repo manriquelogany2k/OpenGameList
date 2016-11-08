@@ -1,6 +1,6 @@
-import { debounceTime } from '../../operator/debounceTime';
+import { DebounceTimeSignature } from '../../operator/debounceTime';
 declare module '../../Observable' {
     interface Observable<T> {
-        debounceTime: typeof debounceTime;
+        debounceTime: DebounceTimeSignature<T>;
     }
 }

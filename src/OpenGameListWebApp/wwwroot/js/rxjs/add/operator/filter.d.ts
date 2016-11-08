@@ -1,6 +1,6 @@
-import { filter } from '../../operator/filter';
+import { FilterSignature } from '../../operator/filter';
 declare module '../../Observable' {
     interface Observable<T> {
-        filter: typeof filter;
+        filter: FilterSignature<T>;
     }
 }

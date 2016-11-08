@@ -1,6 +1,6 @@
-import { dematerialize } from '../../operator/dematerialize';
+import { DematerializeSignature } from '../../operator/dematerialize';
 declare module '../../Observable' {
     interface Observable<T> {
-        dematerialize: typeof dematerialize;
+        dematerialize: DematerializeSignature<T>;
     }
 }

@@ -47,4 +47,7 @@ import { Observable } from '../Observable';
  * @method windowCount
  * @owner Observable
  */
-export declare function windowCount<T>(this: Observable<T>, windowSize: number, startWindowEvery?: number): Observable<Observable<T>>;
+export declare function windowCount<T>(windowSize: number, startWindowEvery?: number): Observable<Observable<T>>;
+export interface WindowCountSignature<T> {
+    (windowSize: number, startWindowEvery?: number): Observable<Observable<T>>;
+}

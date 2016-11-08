@@ -1,6 +1,11 @@
 "use strict";
 var root_1 = require('../util/root');
-/* tslint:disable:max-line-length */
+/**
+ * @param PromiseCtor
+ * @return {Promise<T>}
+ * @method toPromise
+ * @owner Observable
+ */
 function toPromise(PromiseCtor) {
     var _this = this;
     if (!PromiseCtor) {

@@ -1,4 +1,3 @@
-import { Observable } from '../Observable';
 import { ConnectableObservable } from '../observable/ConnectableObservable';
 /**
  * @param value
@@ -6,4 +5,7 @@ import { ConnectableObservable } from '../observable/ConnectableObservable';
  * @method publishBehavior
  * @owner Observable
  */
-export declare function publishBehavior<T>(this: Observable<T>, value: T): ConnectableObservable<T>;
+export declare function publishBehavior<T>(value: T): ConnectableObservable<T>;
+export interface PublishBehaviorSignature<T> {
+    (value: T): ConnectableObservable<T>;
+}

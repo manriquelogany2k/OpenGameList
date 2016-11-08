@@ -1,7 +1,7 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Observer } from '../Observer';
-import { Subscriber } from '../Subscriber';
+import {Observable} from '../Observable';
+import {Operator} from '../Operator';
+import {Observer} from '../Observer';
+import {Subscriber} from '../Subscriber';
 
 /**
  * Counts the number of emissions on the source and emits that number when the
@@ -48,8 +48,12 @@ import { Subscriber } from '../Subscriber';
  * @method count
  * @owner Observable
  */
-export function count<T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
+export function count<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
   return this.lift(new CountOperator(predicate, this));
+}
+
+export interface CountSignature<T> {
+  (predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number>;
 }
 
 class CountOperator<T> implements Operator<T, number> {
