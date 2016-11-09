@@ -26,21 +26,37 @@ System.register(["@angular/core", "./item.service"], function(exports_1, context
                     this.itemService = itemService;
                 }
                 ItemListComponent.prototype.ngOnInit = function () {
-                    this.getLatest();
-                };
-                ItemListComponent.prototype.getLatest = function () {
                     var _this = this;
-                    this.itemService.getLatest()
-                        .subscribe(function (latestItems) { return _this.items = latestItems; }, function (error) { return _this.errorMessage = error; });
+                    var s = null;
+                    switch (this.class) {
+                        case "latest":
+                        case "most-viewed":
+                            this.title = "Most Viewed Items";
+                            s = this.itemService.getMostViewed();
+                            break;
+                        case "random":
+                            this.title = "Random Items";
+                            s = this.itemService.getRandom();
+                            break;
+                        default:
+                            this.title = "Latest Items";
+                            s = this.itemService.getLatest();
+                            break;
+                    }
+                    s.subscribe(function (items) { return _this.items = items; }, function (error) { return _this.errorMessage = error; });
                 };
                 ItemListComponent.prototype.onSelect = function (item) {
                     this.selectedItem = item;
                     console.log("item with Id " + this.selectedItem.Id + " has been selected.");
                 };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], ItemListComponent.prototype, "class", void 0);
                 ItemListComponent = __decorate([
                     core_1.Component({
                         selector: "item-list",
-                        template: " \n        <h2>Latest Items:</h2> \n            <ul class=\"items\"> \n            <li *ngFor=\"let item of items\"  \n                [class.selected]=\"item === selectedItem\" \n                (click)=\"onSelect(item)\"> \n                <span>{{item.Title}}</span> \n            </li> \n        </ul> \n    ",
+                        template: " \n        <h2>{{title}}</h2>\n            <ul class=\"items\"> \n            <li *ngFor=\"let item of items\"   [class.selected]=\"item === selectedItem\"   (click)=\"onSelect(item)\"> \n                <span>{{item.Title}}</span> \n            </li> \n        </ul> \n        <item-detail *ngIf=\"selectedItem\" [item]=\"selectedItem\"></item-detail>\n    ",
                         styles: [
                             " \n        ul.items li {  \n            cursor: pointer; \n        } \n        ul.items li.selected {  \n            background-color: #cccccc;  \n        } \n    "
                         ]

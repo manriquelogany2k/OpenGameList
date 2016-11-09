@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "@angular/http", "rxjs/Rx", "./app.component", "./item-list.component", "./item.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/platform-browser", "@angular/http", "@angular/forms", "rxjs/Rx", "./app.component", "./item-list.component", "./item-detail.component", "./item.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/http", 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_browser_1, http_1, app_component_1, item_list_component_1, item_service_1;
+    var core_1, platform_browser_1, http_1, forms_1, app_component_1, item_list_component_1, item_detail_component_1, item_service_1;
     var AppModule;
     return {
         setters:[
@@ -23,12 +23,18 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/http", 
             function (http_1_1) {
                 http_1 = http_1_1;
             },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
+            },
             function (_1) {},
             function (app_component_1_1) {
                 app_component_1 = app_component_1_1;
             },
             function (item_list_component_1_1) {
                 item_list_component_1 = item_list_component_1_1;
+            },
+            function (item_detail_component_1_1) {
+                item_detail_component_1 = item_detail_component_1_1;
             },
             function (item_service_1_1) {
                 item_service_1 = item_service_1_1;
@@ -42,12 +48,14 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/http", 
                         // directives, components, and pipes 
                         declarations: [
                             app_component_1.AppComponent,
-                            item_list_component_1.ItemListComponent
+                            item_list_component_1.ItemListComponent,
+                            item_detail_component_1.ItemDetailComponent
                         ],
                         // modules 
                         imports: [
                             platform_browser_1.BrowserModule,
-                            http_1.HttpModule
+                            http_1.HttpModule,
+                            forms_1.FormsModule
                         ],
                         // providers 
                         providers: [
