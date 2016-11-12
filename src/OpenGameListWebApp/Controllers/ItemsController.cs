@@ -32,11 +32,59 @@ namespace OpenGameListWebApp.Controllers
 
 
         [HttpGet("{id}")]
-
         public IActionResult Get(int id)
         {
             var item = DbContext.Items.FirstOrDefault(i => i.Id == id);
+            if (item != null) return new JsonResult(TinyMapper.Map<ItemViewModel>(item), DefaultJsonSettings);
+
+            return NotFound(new { Error = $"Item ID {id} has not been found"});
+        }
+
+
+        [HttpPost]
+        public IActionResult Add([FromBody]ItemViewModel ivm)
+        {
+            if (ivm == null) return new StatusCodeResult(500);
+            var item = TinyMapper.Map<Item>(ivm);
+            item.CreatedDate = item.LastModifiedDate = DateTime.Now;
+            item.UserId = DbContext.Users.FirstOrDefault(u => u.UserName == "Admin").Id;
+            DbContext.Items.Add(item);
+            DbContext.SaveChanges();
+
             return new JsonResult(TinyMapper.Map<ItemViewModel>(item), DefaultJsonSettings);
+        }
+
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody]ItemViewModel ivm)
+        {
+            if (ivm == null) return NotFound(new {Error = $"Item ID {id} has not been found"});
+            var item = DbContext.Items.FirstOrDefault(i => i.Id == id);
+            if (item == null) return NotFound(new {Error = $"Item ID {id} has not been found"});
+
+            item.UserId = ivm.UserId;
+            item.Description = ivm.Description;
+            item.Flags = ivm.Flags;
+            item.Notes = ivm.Notes;
+            item.Text = ivm.Text;
+            item.Title = ivm.Title;
+            item.Type = ivm.Type;
+            item.LastModifiedDate = DateTime.Now;
+            DbContext.SaveChanges();
+
+            return new JsonResult(TinyMapper.Map<ItemViewModel>(item), DefaultJsonSettings);
+        }
+
+        
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var item = DbContext.Items.FirstOrDefault(i => i.Id == id);
+            if (item == null) return NotFound(new {Error = $"Item ID {id} has not been found"});
+            DbContext.Items.Remove(item);
+            DbContext.SaveChanges();
+
+            return new OkResult();
         }
 
 

@@ -65,6 +65,24 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function(
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
+                ItemService.prototype.add = function (item) {
+                    return this.http.post(this.baseUrl, JSON.stringify(item), this.getRequestOptions())
+                        .map(function (response) { return response.json(); })
+                        .catch(this.handleError);
+                };
+                ItemService.prototype.update = function (item) {
+                    var url = this.baseUrl + item.Id;
+                    return this.http.put(url, JSON.stringify(item), this.getRequestOptions())
+                        .map(function (response) { return response.json(); })
+                        .catch(this.handleError);
+                };
+                ItemService.prototype.delete = function (id) {
+                    var url = this.baseUrl + id;
+                    return this.http.delete(url).catch(this.handleError);
+                };
+                ItemService.prototype.getRequestOptions = function () {
+                    return new http_1.RequestOptions({ headers: new http_1.Headers({ "Content-Type": "application/json" }) });
+                };
                 ItemService.prototype.handleError = function (error) {
                     console.error(error);
                     return Observable_1.Observable.throw(error.json().error || "Server error");

@@ -50,9 +50,8 @@ System.register(["@angular/core", "@angular/router", "./item.service"], function
                     s.subscribe(function (items) { return _this.items = items; }, function (error) { return _this.errorMessage = error; });
                 };
                 ItemListComponent.prototype.onSelect = function (item) {
-                    console.log("item", item);
                     this.selectedItem = item;
-                    this.router.navigate(["item", this.selectedItem.Id]);
+                    this.router.navigate(["item/view", this.selectedItem.Id]);
                 };
                 __decorate([
                     core_1.Input(), 

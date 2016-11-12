@@ -10,7 +10,8 @@ import {AboutComponent} from "./about.component";
 import {AppComponent} from "./app.component";
 import {AppRouting} from "./app.routing"; 
 import {HomeComponent} from "./home.component"; 
-import {ItemDetailComponent} from "./item-detail.component";
+import {ItemDetailEditComponent} from "./item-detail-edit.component";
+import {ItemDetailViewComponent} from "./item-detail-view.component";
 import {ItemListComponent} from "./item-list.component";
 import {LoginComponent} from "./login.component";
 import {PageNotFoundComponent} from "./page-not-found.component";
@@ -25,7 +26,8 @@ import {ItemService} from "./item.service";
         AppComponent,
         HomeComponent,
         ItemListComponent,
-        ItemDetailComponent,
+        ItemDetailEditComponent,
+        ItemDetailViewComponent,
         LoginComponent,
         PageNotFoundComponent
     ],
