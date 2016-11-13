@@ -67,7 +67,7 @@ System.register(["@angular/core", "@angular/router", "./item", "./item.service"]
                     this.itemService.update(item).subscribe(function (data) {
                         _this.item = data;
                         console.log("Item " + _this.item.Id + " has been updated.");
-                        _this.router.navigate([""]);
+                        _this.router.navigate(["item/view", _this.item.Id]);
                     }, function (error) { return console.log(error); });
                 };
                 ItemDetailEditComponent.prototype.onDelete = function (item) {
