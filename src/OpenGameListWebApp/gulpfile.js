@@ -16,7 +16,9 @@ var srcPaths = {
         'node_modules/zone.js/dist/zone.js',
         'node_modules/reflect-metadata/Reflect.js',
         'node_modules/systemjs/dist/system.src.js',
-        'node_modules/typescript/lib/typescript.js'
+        'node_modules/typescript/lib/typescript.js',
+        'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js',
+        'node_modules/moment/moment.js'
     ],
 
     js_angular: [
@@ -28,6 +30,9 @@ var srcPaths = {
     ],
     less: [
         'Scripts/less/**/*.less'
+    ],
+    css: [
+        'node_modules/bootswatch/paper/bootstrap.min.css'
     ]
 };
 
@@ -82,6 +87,16 @@ gulp.task('js_clean', function () {
 });
 
 
+//Copy all css files from external libraries to wwwroot/css
+gulp.task('css', function() {
+
+   return gulp.src(srcPaths.css)
+        .pipe(gulp.dest(destPaths.css));
+});
+
+
+
+
 // Process all LESS files and output the resulting CSS in wwwroot/css
 gulp.task('less', ['less_clean'], function () {
     return gulp.src(srcPaths.less)
@@ -108,4 +123,4 @@ gulp.task('cleanup', ['app_clean', 'js_clean', 'less_clean']);
 
 
 // Define the default task so it will launch all other tasks 
-gulp.task('default', ['app', 'js', 'less', 'watch']);
+gulp.task('default', ['app', 'js', 'less', 'css', 'watch']);
