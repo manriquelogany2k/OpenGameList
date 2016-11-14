@@ -2,8 +2,8 @@
     // map tells the System loader where to look for things 
     var map = {
         'app': 'app', // our application files 
-        '@angular': 'js/@angular', // angular2 packages 
-        'rxjs': 'js/rxjs' // Rxjs package 
+        '@angular': 'js/@angular', 
+        'rxjs': 'js/rxjs' 
     };
 
     // packages tells the System loader which filename and/or extensions to look for by default (when none are specified) 
