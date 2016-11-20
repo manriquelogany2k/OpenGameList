@@ -2,7 +2,7 @@
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {HttpModule} from "@angular/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms"; 
 import {RouterModule} from "@angular/router";
 import "rxjs/Rx";
 
@@ -17,6 +17,10 @@ import {LoginComponent} from "./login.component";
 import {PageNotFoundComponent} from "./page-not-found.component";
 
 import {ItemService} from "./item.service"; 
+import {AuthService} from "./auth.service"; 
+
+import {AuthHttp} from "./auth.http";
+
 
 
 @NgModule({
@@ -36,11 +40,14 @@ import {ItemService} from "./item.service";
         BrowserModule,
         HttpModule,
         FormsModule,
+        ReactiveFormsModule,
         RouterModule,
         AppRouting
     ],
     // providers 
     providers: [
+        AuthHttp,
+        AuthService, 
         ItemService
     ],
     bootstrap: [

@@ -11,9 +11,11 @@ using Microsoft.Extensions.Logging;
 using OpenGameListWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 using Nelibur.ObjectMapper;
 using OpenGameListWebApp.Data.Items;
 using OpenGameListWebApp.Data.Users;
+using OpenGameListWebApp.Infrastructure;
 using OpenGameListWebApp.ViewModels;
 
 namespace OpenGameListWebApp
@@ -75,8 +77,10 @@ namespace OpenGameListWebApp
             loggerFactory.AddDebug();
 
 
+
             // Configure a rewrite rule to auto-lookup for standard default files such as index.html.
             app.UseDefaultFiles();
+
 
 
             // Serve static files (html, css, js, images & more). See also the following URL:
@@ -92,7 +96,31 @@ namespace OpenGameListWebApp
                 }
             });
 
+
+
+            // Add a custom Jwt Provider to generate Tokens
+            app.UseJwtProvider();
+            
+            // Add the Jwt Bearer Header Authentication to validate Tokens
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                RequireHttpsMetadata = false,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = JwtProvider.SecurityKey,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = JwtProvider.Issuer,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                }
+            });
+
+
+
             app.UseMvc();
+
 
 
             TinyMapper.Bind<Item, ItemViewModel>();

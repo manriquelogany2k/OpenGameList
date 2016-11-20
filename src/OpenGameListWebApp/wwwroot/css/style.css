@@ -161,3 +161,16 @@ item-list ul li .description {
 .item-container form.item-detail-edit .commands input[type="button"] {
   margin-left: 5px;
 }
+.login-container {
+  max-width: 330px;
+  padding: 15px;
+}
+.login-container .form-login {
+  margin: 0 0 10px 20px;
+}
+.login-container .form-login .checkbox {
+  margin-bottom: 10px;
+}
+.login-container .form-login input {
+  margin-bottom: 10px;
+}
