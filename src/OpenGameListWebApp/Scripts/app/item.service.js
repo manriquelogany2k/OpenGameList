@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/Observable", "./auth.http"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, Observable_1;
+    var core_1, http_1, Observable_1, auth_http_1;
     var ItemService;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function(
             },
             function (Observable_1_1) {
                 Observable_1 = Observable_1_1;
+            },
+            function (auth_http_1_1) {
+                auth_http_1 = auth_http_1_1;
             }],
         execute: function() {
             ItemService = (function () {
@@ -89,7 +92,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function(
                 };
                 ItemService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [auth_http_1.AuthHttp])
                 ], ItemService);
                 return ItemService;
             }());
