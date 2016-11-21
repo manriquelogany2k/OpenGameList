@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using OpenGameListWebApp.Data.Comments;
 using OpenGameListWebApp.Data.Items;
 using OpenGameListWebApp.Data.Users;
+using OpenIddict;
 
 namespace OpenGameListWebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : OpenIddictDbContext<ApplicationUser>
     {
         public DbSet<Item> Items { get; set; }
         public DbSet<Comment> Comments { get; set; }

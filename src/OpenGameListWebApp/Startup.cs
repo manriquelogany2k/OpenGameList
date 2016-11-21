@@ -64,6 +64,40 @@ namespace OpenGameListWebApp
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
 
+            // Register the OpenIddict services, including the default Entity Framework stores.
+            services.AddOpenIddict<ApplicationDbContext>()
+                // Integrate with EFCore
+                .AddEntityFramework<ApplicationDbContext>()
+
+                // Use Json Web Tokens (JWT)
+                .UseJsonWebTokens()
+
+                // Set a custom token endpoint (default is /connect/token)
+                .EnableTokenEndpoint(Configuration["Authentication:OpenIddict:TokenEndPoint"])
+
+                // Set a custom auth endpoint (default is /connect/authorize)
+                .EnableAuthorizationEndpoint(Configuration["Authentication:OpenIddict:AuthorizationEndPoint"])
+
+                // Allow client applications to use the grant_type=password flow.
+                .AllowPasswordFlow()
+
+                // Enable support for both authorization & implicit flows
+                .AllowAuthorizationCodeFlow()
+                .AllowImplicitFlow()
+
+                // Allow the client to refresh tokens.
+                .AllowRefreshTokenFlow()
+
+                // Disable the HTTPS requirement (not recommended in production)
+                .DisableHttpsRequirement()
+
+                // Register a new ephemeral key for development.
+                // We will register a X.509 certificate in production.
+                .AddEphemeralSigningKey();
+
+
+            // Add a reference to objects for DI
+            services.AddSingleton<IConfiguration>(c => Configuration);
             services.AddSingleton<DbSeeder>();
         }
 
@@ -97,21 +131,27 @@ namespace OpenGameListWebApp
             });
 
 
+            // Add a custom Jwt Provider to generate Tokens 
+            // app.UseJwtProvider();
 
-            // Add a custom Jwt Provider to generate Tokens
-            app.UseJwtProvider();
-            
+
+            // Add OpenIddict middleware
+            // Note: UseOpenIddict() must be registered after app.UseIdentity() and the external social providers.
+            app.UseOpenIddict();
+
+
             // Add the Jwt Bearer Header Authentication to validate Tokens
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 RequireHttpsMetadata = false,
+                Authority = Configuration["Authentication:OpenIddict:Authority"],
                 TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = JwtProvider.SecurityKey,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = JwtProvider.Issuer,
+                    //IssuerSigningKey = JwtProvider.SecurityKey,
+                    //ValidateIssuerSigningKey = true,
+                    //ValidIssuer = JwtProvider.Issuer,
                     ValidateIssuer = false,
                     ValidateAudience = false
                 }

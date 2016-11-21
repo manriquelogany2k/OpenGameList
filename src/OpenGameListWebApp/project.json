@@ -24,7 +24,8 @@
         "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.1.0-preview1-final",
         "TinyMapper": "2.0.8",
         "Microsoft.IdentityModel.Tokens": "5.1.0",
-        "System.IdentityModel.Tokens.Jwt": "5.1.0"
+        "System.IdentityModel.Tokens.Jwt": "5.1.0",
+        "OpenIddict": "1.0.0-beta1-0488"
     },
 
     "tools": {
