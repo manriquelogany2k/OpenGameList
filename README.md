@@ -7,7 +7,8 @@ I did it in order to practice. Some of the technologies used are:
 -  Server side:
   -  ASP.NET Core
   -  EntityFramework Core
-    
+
+
 -  Client side:
   -  Angular 2
   -  LESS
