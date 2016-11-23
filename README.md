@@ -5,8 +5,8 @@ This is my implementation of the sample project for the book titled "ASP.NET Cor
 I did it in order to practice. Some of the technologies used are:
 
 -  Server side:
-  -  ASP.NET Core
-  -  EntityFramework Core
+  -  ASP.NET Core 1.1
+  -  Entity Framework Core 1.1
 
 
 -  Client side:
