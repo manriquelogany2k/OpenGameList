@@ -111,7 +111,7 @@ namespace OpenGameListWebApp
             loggerFactory.AddDebug();
 
 
-            app.UseDeveloperExceptionPage();
+            //app.UseDeveloperExceptionPage();
 
 
             // Configure a rewrite rule to auto-lookup for standard default files such as index.html.
