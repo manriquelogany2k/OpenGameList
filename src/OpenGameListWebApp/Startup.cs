@@ -131,9 +131,8 @@ namespace OpenGameListWebApp
 
 
             // Add a custom Jwt Provider to generate Tokens 
-            app.UseJwtProvider();
-
-
+            //app.UseJwtProvider();
+            
             // Add OpenIddict middleware
             // Note: UseOpenIddict() must be registered after app.UseIdentity() and the external social providers.
             app.UseOpenIddict();
