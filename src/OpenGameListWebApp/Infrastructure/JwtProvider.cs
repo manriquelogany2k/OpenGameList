@@ -76,14 +76,14 @@ namespace OpenGameListWebApp.Infrastructure
         {
             try
             {
-                // retrieve the relevant FORM data
                 string username = httpContext.Request.Form["username"];
                 string password = httpContext.Request.Form["password"];
 
-                // check if there's an user with the given username
                 var user = await _userManager.FindByNameAsync(username);
-                // fallback to support e-mail address instead of username
-                if (user == null && username.Contains("@")) user = await _userManager.FindByEmailAsync(username);
+                if (user == null && username.Contains("@"))
+                {
+                    user = await _userManager.FindByEmailAsync(username);
+                }
 
                 var success = user != null && await _userManager.CheckPasswordAsync(user, password);
                 if (success)
@@ -98,23 +98,14 @@ namespace OpenGameListWebApp.Infrastructure
                         new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-                        // add additional claims here
                     };
 
                     // Create the JWT and write it to a string
-                    var token = new JwtSecurityToken(
-                    claims: claims,
-                    notBefore: now,
-                    expires: now.Add(_tokenExpiration),
-                    signingCredentials: _signingCredentials);
+                    var token = new JwtSecurityToken(claims: claims, notBefore: now, expires: now.Add(_tokenExpiration), signingCredentials: _signingCredentials);
                     var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
                     // build the json response
-                    var jwt = new
-                    {
-                        access_token = encodedToken,
-                        expiration = (int)_tokenExpiration.TotalSeconds
-                    };
+                    var jwt = new {access_token = encodedToken, expiration = (int) _tokenExpiration.TotalSeconds};
 
                     // return token
                     httpContext.Response.ContentType = "application/json";
