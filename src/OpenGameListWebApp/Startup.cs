@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -34,6 +31,12 @@ namespace OpenGameListWebApp
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets();   // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+            }
+
             Configuration = builder.Build();
         }
 
@@ -132,7 +135,26 @@ namespace OpenGameListWebApp
 
             // Add a custom Jwt Provider to generate Tokens 
             //app.UseJwtProvider();
-            
+
+
+            // Add the AspNetCore.Identity middleware (required for external auth providers)
+            // IMPORTANT: This must be placed *BEFORE* OpenIddict and any external provider's middleware
+            app.UseIdentity();
+
+            // Add external authentication middleware below.
+            // To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                AppId = Configuration["FacebookAppId"],
+                AppSecret = Configuration["FacebookAppSecret"],
+                CallbackPath = "/signin-facebook",
+                Scope = { "email" }
+            });
+
+
+
             // Add OpenIddict middleware
             // Note: UseOpenIddict() must be registered after app.UseIdentity() and the external social providers.
             app.UseOpenIddict();
@@ -174,5 +196,6 @@ namespace OpenGameListWebApp
                 throw new Exception(e.ToString());
             }
         }
+
     }
 }

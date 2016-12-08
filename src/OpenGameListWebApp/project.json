@@ -26,7 +26,10 @@
         "TinyMapper": "2.0.8",
         "Microsoft.IdentityModel.Tokens": "5.1.0",
         "System.IdentityModel.Tokens.Jwt": "5.1.0",
-        "OpenIddict": "1.0.0-beta1-0501"
+        "OpenIddict": "1.0.0-beta1-0501",
+        "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
+        "Microsoft.AspNetCore.Authentication.Facebook": "1.1.0"
+             
     },
 
     "tools": {

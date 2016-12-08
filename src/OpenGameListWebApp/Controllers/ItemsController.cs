@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Nelibur.ObjectMapper;
 using Newtonsoft.Json;
 using OpenGameListWebApp.Data;
 using OpenGameListWebApp.Data.Items;
+using OpenGameListWebApp.Data.Users;
 using OpenGameListWebApp.ViewModels;
 
 namespace OpenGameListWebApp.Controllers
 {
     [Route("api/[controller]")]
-    public class ItemsController : Controller
+    public class ItemsController : BaseController
     {
         private int DefaultNumberOfItems => 5;
         private int MaxNumberOfItems => 100;
-        private readonly ApplicationDbContext _dbContext;
 
-
-        public ItemsController(ApplicationDbContext context)
+        public ItemsController(ApplicationDbContext context, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager) : base(context, signInManager, userManager)
         {
-            _dbContext = context;
-        }
+        } 
 
 
         [HttpGet]
