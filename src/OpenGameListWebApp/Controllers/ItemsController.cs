@@ -144,10 +144,6 @@ namespace OpenGameListWebApp.Controllers
         {
             return items.Select(TinyMapper.Map<ItemViewModel>).ToList();
         }
-
-        private JsonSerializerSettings DefaultJsonSettings => new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        };
+      
     }
 }
